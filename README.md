@@ -3,7 +3,7 @@
 [![npm Version][npm-badge]][npm]
 [![Build Status][travis-badge]][travis]
 
-Broccoli plugin for writing results of formatjs-extract-cldr-data to a broccoli node
+Broccoli plugin for writing results of [formatjs-extract-cldr-data][] to a broccoli node
 
 ```js
 var extract = require('broccoli-cldr-data');
@@ -47,3 +47,4 @@ The CLDR data contained in this packaged is licensed under the Apache, ICU, and 
 [LICENSE file]: https://github.com/jasonmit/broccoli-cldr-data/blob/master/LICENSE
 [CLDR license files]: https://github.com/yahoo/formatjs-extract-cldr-data/tree/master/data
 [FormatJS license files]: https://github.com/yahoo/formatjs-extract-cldr-data/blob/master/LICENSE
+[formatjs-extract-cldr-data]: https://github.com/yahoo/formatjs-extract-cldr-data
