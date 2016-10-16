@@ -9,7 +9,7 @@ var _build = require('./build');
 require('./lib/find-polyfill');
 
 function build(pluginOptions) {
-  return _build(['./empty-test-node'], Object.assign({
+  return _build('./empty-test-node', Object.assign({
     pluralRules: false,
     relativeFields: false,
     moduleType: 'commonjs'

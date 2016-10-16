@@ -23,6 +23,10 @@ function Plugin(inputNodes, options) {
     return new Plugin(inputNodes, options);
   }
 
+  if (!Array.isArray(inputNodes)) {
+    inputNodes = [inputNodes];
+  }
+
   this.options = Object.assign({
     // formatjs-extract-cldr-data options
     locales: null,
