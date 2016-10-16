@@ -18,8 +18,8 @@ describe('cldr data extraction', function () {
   it('filenames should be the locale', function (done) {
     build().then((result) => {
       var ls = walkSync(result.directory);
-      assert.ok(ls.includes('en.js'));
-      assert.ok(ls.includes('zh.js'));
+      assert.ok(~ls.indexOf('en.js'));
+      assert.ok(~ls.indexOf('zh.js'));
       done();
     });
   });
