@@ -3,7 +3,7 @@
 [![npm Version][npm-badge]][npm]
 [![Build Status][travis-badge]][travis]
 
-Broccoli plugin for writing results of [formatjs-extract-cldr-data][] to a broccoli node
+Broccoli plugin for writing results of [formatjs-extract-cldr-data][] to a broccoli node grouped by language.
 
 ```js
 var extract = require('broccoli-cldr-data');

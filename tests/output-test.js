@@ -18,8 +18,8 @@ describe('cldr data extraction', function () {
   it('filenames should be the locale', function (done) {
     build().then((result) => {
       var ls = walkSync(result.directory);
-      assert.ok(ls.includes('en.js'));
-      assert.ok(ls.includes('zh.js'));
+      assert.ok(~ls.indexOf('en.js'));
+      assert.ok(~ls.indexOf('zh.js'));
       done();
     });
   });
@@ -30,6 +30,50 @@ describe('cldr data extraction', function () {
       var zh = require(path.join(result.directory, 'zh.js'));
       assert.equal(typeof en, 'object');
       assert.equal(typeof zh, 'object');
+      done();
+    });
+  });
+
+  it('should treat locales as case insensitive', function(done) {
+    build({
+      locales: ['EN-ca', 'fr-CA'],
+      pluralRules: true
+    }).then((result) => {
+      var outputPath = result.directory;
+      var ls = walkSync(outputPath);
+      assert.equal(ls.length, 2, 'contains only fr and en modules');
+
+      var en = require(path.join(outputPath, 'en.js'));
+      var enCA = en.find((l) => l.locale === 'en-CA');
+      assert.ok(enCA);
+
+      done();
+    });
+  });
+
+  it('should treat locales as case insensitive', function(done) {
+    try {
+      build({ locales: [false] });
+    } catch(e) {
+      assert.equal(e.name, 'AssertionError');
+      assert.equal(e.message, 'Locale false was provided, but a string was expected.');
+      done();
+    }
+  });
+
+  it('should treat handle underscored locales', function(done) {
+    build({
+      locales: ['en_CA', 'fr_ca'],
+      pluralRules: true
+    }).then((result) => {
+      var outputPath = result.directory;
+      var ls = walkSync(outputPath);
+      assert.equal(ls.length, 2, 'contains only fr and en modules');
+
+      var en = require(path.join(outputPath, 'en.js'));
+      var enCA = en.find((l) => l.locale === 'en-CA');
+      assert.ok(enCA);
+
       done();
     });
   });
