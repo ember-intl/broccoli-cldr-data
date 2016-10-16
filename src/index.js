@@ -34,7 +34,7 @@ function Plugin(inputNodes, options) {
     prelude: '',
     moduleType: 'es6',
     wrapEntry: function(data) {
-      let prefix = 'export default';
+      var prefix = 'export default';
 
       if (this.moduleType === 'commonjs') {
         prefix = 'module.exports =';
