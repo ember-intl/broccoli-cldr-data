@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/ --reporter spec",
+    "test:watch": "mocha -w tests/ --reporter spec",
     "test:debug": "mocha debug tests/ --reporter spec"
   },
   "bugs": {
