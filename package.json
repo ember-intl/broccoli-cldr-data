@@ -1,6 +1,6 @@
 {
   "name": "broccoli-cldr-data",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "extracts cldr data to a broccoli directory",
   "main": "index.js",
   "scripts": {
