@@ -6,11 +6,11 @@
 * Copyright 2015, Yahoo! Inc.
 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
-
 var CachingWriter = require('broccoli-caching-writer');
 var extractor = require('formatjs-extract-cldr-data');
 var serialize = require('serialize-javascript');
 var mkdirp = require('mkdirp');
+var assert = require('assert');
 var fs = require('fs');
 
 require('./object-assign-polyfill');
@@ -23,19 +23,14 @@ function Plugin(inputNodes, options) {
     return new Plugin(inputNodes, options);
   }
 
-  options = options || {};
-
-  CachingWriter.call(this, inputNodes, {
-    annotation: options.annotation
-  });
-
-  this.destDir = options.destDir || '';
-  delete options.destDir;
-
   this.options = Object.assign({
+    // formatjs-extract-cldr-data options
     locales: null,
     pluralRules: true,
     relativeFields: true,
+
+    // plugin options
+    destDir: '',
     prelude: '',
     moduleType: 'es6',
     wrapEntry: function(data) {
@@ -48,12 +43,35 @@ function Plugin(inputNodes, options) {
       return prefix + ' ' + serialize(data) + ';';
     }
   }, options);
+
+  CachingWriter.call(this, inputNodes, {
+    annotation: this.options.annotation
+  });
+
+  if (Array.isArray(this.options.locales)) {
+    this.options.locales = this.options.locales.map(l => this.normalizeLocale(l));
+  }
+}
+
+Plugin.prototype.normalizeLocale = function(locale) {
+  assert(typeof locale === 'string', 'Locale ' + locale + ' was provided, but a string was expected.');
+
+  if (typeof locale === 'string') {
+    return locale.trim().replace(/_/g, '-');
+  }
+
+  return locale;
 }
 
 Plugin.prototype.build = function() {
   var options = this.options;
-  var destPath = this.outputPath + '/' + this.destDir;
-  var cldrData = extractor(options);
+  var destPath = this.outputPath + '/' + options.destDir;
+
+  var cldrData = extractor({
+    locales: options.locales,
+    pluralRules: options.pluralRules,
+    relativeFields: options.relativeFields
+  });
 
   var cldrDataByLang = Object.keys(cldrData).reduce(function(map, locale) {
     var data = cldrData[locale];
