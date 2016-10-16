@@ -50,7 +50,7 @@ function Plugin(inputNodes, options) {
 
   if (Array.isArray(this.options.locales)) {
     this.options.locales = this.options.locales.map(function(localeName) {
-      return this.normalizeLocale(localeName)
+      return this.normalizeLocale(localeName);
     }, this);
   }
 }
