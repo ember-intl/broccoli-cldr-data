@@ -82,7 +82,7 @@ Plugin.prototype.build = function() {
     map[lang] = langData.concat(data);
 
     return map;
-  }, {});
+  }, Object.create(null));
 
   mkdirp.sync(destPath);
 
