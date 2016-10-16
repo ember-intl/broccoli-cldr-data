@@ -16,7 +16,7 @@ function build(pluginOptions) {
 
 describe('cldr data extraction', function () {
   it('filenames should be the locale', function (done) {
-    build().then((result) => {
+    build().then(function(result) {
       var ls = walkSync(result.directory);
       assert.ok(~ls.indexOf('en.js'));
       assert.ok(~ls.indexOf('zh.js'));
@@ -25,7 +25,7 @@ describe('cldr data extraction', function () {
   });
 
   it('should have object values for each locale key', function(done) {
-    build().then((result) => {
+    build().then(function(result) {
       var en = require(path.join(result.directory, 'en.js'));
       var zh = require(path.join(result.directory, 'zh.js'));
       assert.equal(typeof en, 'object');
@@ -38,13 +38,16 @@ describe('cldr data extraction', function () {
     build({
       locales: ['EN-ca', 'fr-CA'],
       pluralRules: true
-    }).then((result) => {
+    }).then(function(result) {
       var outputPath = result.directory;
       var ls = walkSync(outputPath);
       assert.equal(ls.length, 2, 'contains only fr and en modules');
 
       var en = require(path.join(outputPath, 'en.js'));
-      var enCA = en.find((l) => l.locale === 'en-CA');
+      var enCA = en.find(function(l) {
+        return l.locale === 'en-CA';
+      });
+
       assert.ok(enCA);
 
       done();
@@ -65,13 +68,16 @@ describe('cldr data extraction', function () {
     build({
       locales: ['en_CA', 'fr_ca'],
       pluralRules: true
-    }).then((result) => {
+    }).then(function(result) {
       var outputPath = result.directory;
       var ls = walkSync(outputPath);
       assert.equal(ls.length, 2, 'contains only fr and en modules');
 
       var en = require(path.join(outputPath, 'en.js'));
-      var enCA = en.find((l) => l.locale === 'en-CA');
+      var enCA = en.find(function(l) {
+        return l.locale === 'en-CA';
+      });
+
       assert.ok(enCA);
 
       done();
@@ -82,20 +88,23 @@ describe('cldr data extraction', function () {
     build({
       locales: ['en-ca', 'fr-ca'],
       pluralRules: true
-    }).then((result) => {
+    }).then(function(result) {
       var outputPath = result.directory;
       var ls = walkSync(outputPath);
       assert.equal(ls.length, 2, 'contains only fr and en modules');
 
       var en = require(path.join(outputPath, 'en.js'));
-      assert.ok(en.find((locale) => typeof locale.pluralRuleFunction === 'function'));
+
+      assert.ok(en.find(function(locale) {
+        return typeof locale.pluralRuleFunction === 'function';
+      }));
 
       done();
     });
   });
 
   it('should not include pluralRuleFunction function when pluralRules disabled', function(done) {
-    build().then((result) => {
+    build().then(function(result) {
       var en = require(path.join(result.directory, 'en.js'));
       assert.equal(typeof en[0].pluralRuleFunction, 'undefined');
       done();
