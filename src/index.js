@@ -32,7 +32,7 @@ function Plugin(inputNodes, options) {
     // formatjs-extract-cldr-data options
     locales: null,
     pluralRules: true,
-    relativeFields: true,
+    relativeFields: false,
 
     // plugin options
     destDir: '',

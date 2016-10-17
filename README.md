@@ -12,7 +12,7 @@ extract(inputNode, {
   locales: ['fr-ca', 'en-ca'], /* defaults to all locales */
   moduleType: 'commonjs', /* options: commonjs, es6 */
   pluralRules: true, /* defaults to true */
-  relativeFields: false /* defaults to true */
+  relativeFields: true /* defaults to false */
 });
 ```
 
