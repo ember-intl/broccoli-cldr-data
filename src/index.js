@@ -11,6 +11,7 @@ var extractor = require('formatjs-extract-cldr-data');
 var serialize = require('serialize-javascript');
 var mkdirp = require('mkdirp');
 var assert = require('assert');
+var path = require('path');
 var fs = require('fs');
 
 require('./object-assign-polyfill');
@@ -36,16 +37,7 @@ function Plugin(inputNodes, options) {
     // plugin options
     destDir: '',
     prelude: '',
-    moduleType: 'es6',
-    wrapEntry: function(data) {
-      var prefix = 'export default';
-
-      if (this.moduleType === 'commonjs') {
-        prefix = 'module.exports =';
-      }
-
-      return prefix + ' ' + serialize(data) + ';';
-    }
+    moduleType: 'es6'
   }, options);
 
   CachingWriter.call(this, inputNodes, {
@@ -69,37 +61,40 @@ Plugin.prototype.normalizeLocale = function(locale) {
   return locale;
 }
 
-Plugin.prototype.build = function() {
+Plugin.prototype.writeFileSync = function(groupedByLanguage) {
   var options = this.options;
-  var destPath = this.outputPath + '/' + options.destDir;
+  var outputPath = path.join(this.outputPath, options.destDir);
 
-  var cldrData = extractor({
-    locales: options.locales,
-    pluralRules: options.pluralRules,
-    relativeFields: options.relativeFields
+  mkdirp.sync(outputPath);
+
+  for (var language in groupedByLanguage) {
+    var prefix = options.moduleType.toLowerCase() === 'es6' ? 'export default' : 'module.exports =';
+    var languageData = prefix + ' ' + serialize(groupedByLanguage[language]) + ';';
+
+    fs.writeFileSync(
+      path.join(outputPath, language.toLowerCase() + '.js'),
+      options.prelude.concat(languageData),
+      { encoding: 'utf8' }
+    );
+  }
+}
+
+Plugin.prototype.build = function() {
+  var data = extractor({
+    locales: this.options.locales,
+    pluralRules: this.options.pluralRules,
+    relativeFields: this.options.relativeFields
   });
 
-  var cldrDataByLang = Object.keys(cldrData).reduce(function(map, locale) {
-    var data = cldrData[locale];
+  var groupedByLanguage = Object.keys(data).reduce(function(ret, locale) {
     var lang = locale.split('-')[0];
-    var langData = map[lang] || [];
-    map[lang] = langData.concat(data);
+    var langData = ret[lang] || [];
+    ret[lang] = langData.concat(data[locale]);
 
-    return map;
+    return ret;
   }, Object.create(null));
 
-  mkdirp.sync(destPath);
-
-  Object.keys(cldrDataByLang).forEach(function(lang) {
-    var cldrData = cldrDataByLang[lang];
-
-    if (typeof options.wrapEntry === 'function') {
-      cldrData = options.wrapEntry(cldrData);
-    }
-
-    var outFile = destPath + '/' + lang.toLocaleLowerCase() + '.js';
-    fs.writeFileSync(outFile, options.prelude.concat(cldrData), { encoding: 'utf8' });
-  });
+  return this.writeFileSync(groupedByLanguage);
 }
 
 module.exports = Plugin;
