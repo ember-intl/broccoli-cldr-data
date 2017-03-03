@@ -1,5 +1,7 @@
 # broccoli-cldr-data
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ember-intl/broccoli-cldr-data.svg)](https://greenkeeper.io/)
+
 [![npm Version][npm-badge]][npm]
 [![Build Status][travis-badge]][travis]
 
