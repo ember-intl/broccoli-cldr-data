@@ -9,10 +9,10 @@
     "test:debug": "mocha debug tests/ --reporter spec"
   },
   "bugs": {
-    "url": "https://github.com/jasonmit/broccoli-cldr-data/issues"
+    "url": "https://github.com/ember-intl/broccoli-cldr-data/issues"
   },
-  "repository": "https://github.com/jasonmit/broccoli-cldr-data",
-  "homepage": "https://github.com/jasonmit/broccoli-cldr-data",
+  "repository": "https://github.com/ember-intl/broccoli-cldr-data",
+  "homepage": "https://github.com/ember-intl/broccoli-cldr-data",
   "author": "jason.mitchell.w@gmail.com",
   "license": "MIT",
   "keywords": [
