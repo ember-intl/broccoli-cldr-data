@@ -1,20 +1,11 @@
 'use strict';
 
-process.chdir(__dirname);
+const broccoli = require('broccoli');
 
-var path = require('path');
-var broccoli = require('broccoli');
+const plugin = require('../');
 
-var plugin = require('../');
+module.exports = function testsBuild() {
+  let pluginInstance = plugin.apply(this, arguments);
 
-module.exports = function (inputTrees, pluginOptions) {
-  inputTrees = !Array.isArray(inputTrees) ? [inputTrees] : inputTrees;
-
-  if (!pluginOptions) {
-    pluginOptions = {};
-  }
-
-  var instance = plugin.apply(this, arguments);
-
-  return new broccoli.Builder(instance).build();
+  return new broccoli.Builder(pluginInstance).build();
 }

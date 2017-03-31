@@ -19,6 +19,9 @@
     "broccoli-plugin",
     "ember-intl"
   ],
+  "engines": {
+    "node": ">= 4.0.0"
+  },
   "dependencies": {
     "broccoli-caching-writer": "^3.0.3",
     "formatjs-extract-cldr-data": "^2.0.0",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "broccoli": "^0.16.9",
+    "broccoli-test-helper": "^1.1.0",
     "mocha": "^3.1.2",
     "walk-sync": "^0.3.1"
   }

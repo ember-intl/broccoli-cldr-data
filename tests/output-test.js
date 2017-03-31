@@ -1,115 +1,96 @@
 'use strict';
 
-var path = require('path');
-var assert = require('assert');
-var walkSync = require('walk-sync');
+const path = require('path');
+const assert = require('assert');
+const walkSync = require('walk-sync');
+const testHelper = require('broccoli-test-helper');
 
-var _build = require('./build');
-
-require('./lib/find-polyfill');
+const builder = require('./build');
 
 function build(pluginOptions) {
-  return _build('./empty-test-node', Object.assign({
-    pluralRules: false,
-    relativeFields: false,
-    moduleType: 'commonjs'
-  }, pluginOptions));
+  return testHelper.createTempDir().then(input => {
+    return builder(
+      input.path(),
+      Object.assign(
+        {
+          pluralRules: false,
+          relativeFields: false,
+          moduleType: 'commonjs'
+        },
+        pluginOptions
+      )
+    );
+  });
 }
 
-describe('cldr data extraction', function () {
-  it('filenames should be the locale', function (done) {
-    build().then(function(result) {
-      var ls = walkSync(result.directory);
+describe('cldr data extraction', function() {
+  it('filenames should be the locale', function() {
+    return build().then(({ directory }) => {
+      let ls = walkSync(directory);
       assert.ok(~ls.indexOf('en.js'));
       assert.ok(~ls.indexOf('zh.js'));
-      done();
     });
   });
 
-  it('should have object values for each locale key', function(done) {
-    build().then(function(result) {
-      var en = require(path.join(result.directory, 'en.js'));
-      var zh = require(path.join(result.directory, 'zh.js'));
+  it('should have object values for each locale key', function() {
+    return build().then(({ directory }) => {
+      let en = require(path.join(directory, 'en.js'));
+      let zh = require(path.join(directory, 'zh.js'));
       assert.equal(typeof en, 'object');
       assert.equal(typeof zh, 'object');
-      done();
     });
   });
 
-  it('should treat locales as case insensitive', function(done) {
-    build({
+  it('should treat locales as case insensitive', function() {
+    return build({
       locales: ['EN-ca', 'fr-CA'],
       pluralRules: true
-    }).then(function(result) {
-      var outputPath = result.directory;
-      var ls = walkSync(outputPath);
+    }).then(({ directory }) => {
+      let ls = walkSync(directory);
+      let en = require(path.join(directory, 'en.js'));
+      let enCA = en.find(o => o.locale === 'en-CA');
       assert.equal(ls.length, 2, 'contains only fr and en modules');
-
-      var en = require(path.join(outputPath, 'en.js'));
-      var enCA = en.find(function(l) {
-        return l.locale === 'en-CA';
-      });
-
       assert.ok(enCA);
-
-      done();
     });
   });
 
-  it('should treat locales as case insensitive', function(done) {
-    try {
-      build({ locales: [false] });
-    } catch(e) {
+  it('should assert when locale does not appear to be a locale', function(done) {
+    build({ locales: [false] }).catch(e => {
       assert.equal(e.name, 'AssertionError');
       assert.equal(e.message, 'Locale false was provided, but a string was expected.');
       done();
-    }
+    });
   });
 
-  it('should treat handle underscored locales', function(done) {
-    build({
+  it('should treat handle underscored locales', function() {
+    return build({
       locales: ['en_CA', 'fr_ca'],
       pluralRules: true
-    }).then(function(result) {
-      var outputPath = result.directory;
-      var ls = walkSync(outputPath);
+    }).then(({ directory }) => {
+      let ls = walkSync(directory);
+      let en = require(path.join(directory, 'en.js'));
+      let enCA = en.find(o => o.locale === 'en-CA');
       assert.equal(ls.length, 2, 'contains only fr and en modules');
-
-      var en = require(path.join(outputPath, 'en.js'));
-      var enCA = en.find(function(l) {
-        return l.locale === 'en-CA';
-      });
-
       assert.ok(enCA);
-
-      done();
     });
   });
 
-  it('should include pluralRuleFunction function when pluralRules enabled', function(done) {
-    build({
+  it('should include pluralRuleFunction function when pluralRules enabled', function() {
+    return build({
       locales: ['en-ca', 'fr-ca'],
       pluralRules: true
-    }).then(function(result) {
-      var outputPath = result.directory;
-      var ls = walkSync(outputPath);
+    }).then(({ directory }) => {
+      let ls = walkSync(directory);
+      let en = require(path.join(directory, 'en.js'));
       assert.equal(ls.length, 2, 'contains only fr and en modules');
-
-      var en = require(path.join(outputPath, 'en.js'));
-
-      assert.ok(en.find(function(locale) {
-        return typeof locale.pluralRuleFunction === 'function';
-      }));
-
-      done();
+      assert.ok(en.find(locale => typeof locale.pluralRuleFunction === 'function'));
     });
   });
 
-  it('should not include pluralRuleFunction function when pluralRules disabled', function(done) {
-    build().then(function(result) {
-      var en = require(path.join(result.directory, 'en.js'));
+  it('should not include pluralRuleFunction function when pluralRules disabled', function() {
+    return build().then(({ directory }) => {
+      let en = require(path.join(directory, 'en.js'));
       assert.equal(typeof en[0].pluralRuleFunction, 'undefined');
-      done();
     });
   });
 });
