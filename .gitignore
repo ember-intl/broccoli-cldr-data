@@ -9,7 +9,6 @@
 # dependencies
 /node_modules
 /tmp
-/tests/tmp
 
 # misc
 /connect.lock
@@ -19,6 +18,3 @@ Thumbs.db
 /coverage/*
 *.orig
 /*.iml
-
-# testing
-/test/utils/tmp/*

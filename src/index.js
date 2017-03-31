@@ -6,15 +6,13 @@
 * Copyright 2015, Yahoo! Inc.
 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
-var CachingWriter = require('broccoli-caching-writer');
-var extractor = require('formatjs-extract-cldr-data');
-var serialize = require('serialize-javascript');
-var mkdirp = require('mkdirp');
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-
-require('./object-assign-polyfill');
+const CachingWriter = require('broccoli-caching-writer');
+const extractor = require('formatjs-extract-cldr-data');
+const serialize = require('serialize-javascript');
+const mkdirp = require('mkdirp');
+const assert = require('assert');
+const path = require('path');
+const fs = require('fs');
 
 Plugin.prototype = Object.create(CachingWriter.prototype);
 Plugin.prototype.constructor = Plugin;
@@ -28,26 +26,32 @@ function Plugin(inputNodes, options) {
     inputNodes = [inputNodes];
   }
 
-  this.options = Object.assign({
-    // formatjs-extract-cldr-data options
-    locales: null,
-    pluralRules: true,
-    relativeFields: false,
+  this.options = Object.assign(
+    {
+      // formatjs-extract-cldr-data options
+      locales: null,
+      pluralRules: true,
+      relativeFields: false,
 
-    // plugin options
-    destDir: '',
-    prelude: '',
-    moduleType: 'es6'
-  }, options);
+      // plugin options
+      destDir: '',
+      prelude: '',
+      moduleType: 'es6'
+    },
+    options
+  );
 
   CachingWriter.call(this, inputNodes, {
     annotation: this.options.annotation
   });
 
   if (Array.isArray(this.options.locales)) {
-    this.options.locales = this.options.locales.map(function(localeName) {
-      return this.normalizeLocale(localeName);
-    }, this);
+    this.options.locales = this.options.locales.map(
+      function(localeName) {
+        return this.normalizeLocale(localeName);
+      },
+      this
+    );
   }
 }
 
@@ -59,7 +63,7 @@ Plugin.prototype.normalizeLocale = function(locale) {
   }
 
   return locale;
-}
+};
 
 Plugin.prototype.writeFileSync = function(groupedByLanguage) {
   var options = this.options;
@@ -71,13 +75,11 @@ Plugin.prototype.writeFileSync = function(groupedByLanguage) {
     var prefix = options.moduleType.toLowerCase() === 'es6' ? 'export default' : 'module.exports =';
     var languageData = prefix + ' ' + serialize(groupedByLanguage[language]) + ';';
 
-    fs.writeFileSync(
-      path.join(outputPath, language.toLowerCase() + '.js'),
-      options.prelude.concat(languageData),
-      { encoding: 'utf8' }
-    );
+    fs.writeFileSync(path.join(outputPath, language.toLowerCase() + '.js'), options.prelude.concat(languageData), {
+      encoding: 'utf8'
+    });
   }
-}
+};
 
 Plugin.prototype.build = function() {
   var data = extractor({
@@ -86,15 +88,18 @@ Plugin.prototype.build = function() {
     relativeFields: this.options.relativeFields
   });
 
-  var groupedByLanguage = Object.keys(data).reduce(function(ret, locale) {
-    var lang = locale.split('-')[0];
-    var langData = ret[lang] || [];
-    ret[lang] = langData.concat(data[locale]);
+  var groupedByLanguage = Object.keys(data).reduce(
+    function(ret, locale) {
+      var lang = locale.split('-')[0];
+      var langData = ret[lang] || [];
+      ret[lang] = langData.concat(data[locale]);
 
-    return ret;
-  }, Object.create(null));
+      return ret;
+    },
+    Object.create(null)
+  );
 
   return this.writeFileSync(groupedByLanguage);
-}
+};
 
 module.exports = Plugin;
