@@ -45,6 +45,6 @@ The CLDR data contained in this packaged is licensed under the Apache, ICU, and 
 [travis]: https://travis-ci.org/ember-intl/broccoli-cldr-data
 [travis-badge]: https://img.shields.io/travis/ember-intl/broccoli-cldr-data/master.svg?style=flat-square
 [LICENSE file]: https://github.com/ember-intl/broccoli-cldr-data/blob/master/LICENSE
-[CLDR license files]: https://github.com/yahoo/formatjs-extract-cldr-data/tree/master/data
-[FormatJS license files]: https://github.com/yahoo/formatjs-extract-cldr-data/blob/master/LICENSE
-[formatjs-extract-cldr-data]: https://github.com/yahoo/formatjs-extract-cldr-data
+[CLDR license files]: https://github.com/ember-intl/formatjs-extract-cldr-data/tree/master/data
+[FormatJS license files]: https://github.com/ember-intl/formatjs-extract-cldr-data/blob/master/LICENSE
+[formatjs-extract-cldr-data]: https://github.com/ember-intl/formatjs-extract-cldr-data
