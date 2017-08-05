@@ -6,8 +6,8 @@
 * Copyright 2015, Yahoo! Inc.
 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
+const extractor = require('@ember-intl/formatjs-extract-cldr-data');
 const CachingWriter = require('broccoli-caching-writer');
-const extractor = require('formatjs-extract-cldr-data');
 const serialize = require('serialize-javascript');
 const mkdirp = require('mkdirp');
 const assert = require('assert');
