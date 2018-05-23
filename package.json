@@ -23,7 +23,7 @@
     "node": ">= 4.0.0"
   },
   "dependencies": {
-    "@ember-intl/formatjs-extract-cldr-data": "^4.0.0",
+    "@ember-intl/formatjs-extract-cldr-data": "^5.0.0",
     "broccoli-caching-writer": "^3.0.3",
     "mkdirp": "^0.5.1",
     "serialize-javascript": "^1.3.0"
