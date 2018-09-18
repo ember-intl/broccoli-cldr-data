@@ -15,6 +15,7 @@ function build(pluginOptions) {
         {
           pluralRules: false,
           relativeFields: false,
+          numberFields: false,
           moduleType: 'commonjs'
         },
         pluginOptions
@@ -55,11 +56,13 @@ describe('cldr data extraction', function() {
   });
 
   it('should assert when locale does not appear to be a locale', function(done) {
-    build({ locales: [false] }).catch(e => {
+    try {
+      build({ locales: [false] });
+      done();
+    } catch(e) {
       assert.equal(e.name, 'AssertionError');
       assert.equal(e.message, 'Locale false was provided, but a string was expected.');
-      done();
-    });
+    }
   });
 
   it('should treat handle underscored locales', function() {

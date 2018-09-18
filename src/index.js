@@ -32,6 +32,7 @@ function Plugin(inputNodes, options) {
       locales: null,
       pluralRules: true,
       relativeFields: false,
+      numberFields: false,
 
       // plugin options
       destDir: '',
@@ -80,7 +81,8 @@ Plugin.prototype.build = function() {
   let data = extractor({
     locales: this._options.locales,
     pluralRules: this._options.pluralRules,
-    relativeFields: this._options.relativeFields
+    relativeFields: this._options.relativeFields,
+    numberFields: this._options.numberFields
   });
 
   let groupedByLanguage = Object.keys(data).reduce(
