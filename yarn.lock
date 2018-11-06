@@ -2,9 +2,10 @@
 # yarn lockfile v1
 
 
-"@ember-intl/formatjs-extract-cldr-data@snewcomer/formatjs-extract-cldr-data#sn/number-fields":
-  version "5.0.0"
-  resolved "https://codeload.github.com/snewcomer/formatjs-extract-cldr-data/tar.gz/757708a757c9de6264a2c3376e5373f0c3b30440"
+"@ember-intl/formatjs-extract-cldr-data@~6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@ember-intl/formatjs-extract-cldr-data/-/formatjs-extract-cldr-data-6.0.0.tgz#31466f93dc10ec24ecdcc42c288beb25ee63a235"
+  integrity sha512-w2q3kkxNDspZFcJs8JYqtOoAyPTD/ceJfGF3VtCzjOkO2C8Rr/vFkIvQ1ubG3giAH8fKGSXJJFcYf8y8sJPZVQ==
   dependencies:
     cldr-core "^34.0.0"
     cldr-dates-full "^34.0.0"
