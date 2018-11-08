@@ -1,6 +1,6 @@
 {
   "name": "@ember-intl/broccoli-cldr-data",
-  "version": "1.1.1",
+  "version": "3.0.0",
   "description": "extracts cldr data to a broccoli directory",
   "main": "index.js",
   "scripts": {
