@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ember-intl/formatjs-extract-cldr-data@~6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@ember-intl/formatjs-extract-cldr-data/-/formatjs-extract-cldr-data-6.0.0.tgz#31466f93dc10ec24ecdcc42c288beb25ee63a235"
-  integrity sha512-w2q3kkxNDspZFcJs8JYqtOoAyPTD/ceJfGF3VtCzjOkO2C8Rr/vFkIvQ1ubG3giAH8fKGSXJJFcYf8y8sJPZVQ==
+"@ember-intl/formatjs-extract-cldr-data@~6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@ember-intl/formatjs-extract-cldr-data/-/formatjs-extract-cldr-data-6.1.0.tgz#6317a44df2405b69417d152116be3b8213433db6"
+  integrity sha512-1Q7ZCpCZ63Dc8hUax+KAEAvGV8Y0LOLKbtrnrXRvPLYfGMqNKkJtW7DHKR9jq18rtk8g1o1BeGo4JZlU2TaHJg==
   dependencies:
     cldr-core "^34.0.0"
     cldr-dates-full "^34.0.0"
