@@ -42,19 +42,6 @@ describe('cldr data extraction', function() {
     });
   });
 
-  it('should treat locales as case insensitive', function() {
-    return build({
-      locales: ['EN-ca', 'fr-CA'],
-      pluralRules: true
-    }).then(result => {
-      let ls = walkSync(result.directory);
-      let en = require(path.join(result.directory, 'en.js'));
-      let enCA = en.find(o => o.locale === 'en-CA');
-      assert.equal(ls.length, 2, 'contains only fr and en modules');
-      assert.ok(enCA);
-    });
-  });
-
   it('should assert when locale does not appear to be a locale', function(done) {
     try {
       build({ locales: [false] });
@@ -65,9 +52,22 @@ describe('cldr data extraction', function() {
     }
   });
 
-  it('should treat handle underscored locales', function() {
+  it('should parse underscored locales', function() {
     return build({
       locales: ['en_CA', 'fr_ca'],
+      pluralRules: true
+    }).then(result => {
+      let ls = walkSync(result.directory);
+      let en = require(path.join(result.directory, 'en.js'));
+      let enCA = en.find(o => o.locale === 'en-CA');
+      assert.equal(ls.length, 2, 'contains only fr and en modules');
+      assert.ok(enCA);
+    });
+  });
+
+  it('should parse locales as case insensitive', function() {
+    return build({
+      locales: ['EN-ca', 'fr-CA'],
       pluralRules: true
     }).then(result => {
       let ls = walkSync(result.directory);
