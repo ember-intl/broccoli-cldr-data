@@ -42,14 +42,14 @@ describe('cldr data extraction', function() {
     });
   });
 
-  it('should assert when locale does not appear to be a locale', function(done) {
-    try {
-      build({ locales: [false] });
-      done();
-    } catch(e) {
-      assert.equal(e.name, 'AssertionError');
-      assert.equal(e.message, 'Locale false was provided, but a string was expected.');
-    }
+  it('should throw when locale input is not a string', function() {
+    return build({ locales: [false] }).catch(e => {
+      assert.ok(e.name.indexOf('AssertionError') === 0);
+      assert.equal(
+        e.message,
+        'Locale false was provided, but a string was expected.'
+      );
+    });
   });
 
   it('should parse underscored locales', function() {
@@ -86,7 +86,9 @@ describe('cldr data extraction', function() {
       let ls = walkSync(result.directory);
       let en = require(path.join(result.directory, 'en.js'));
       assert.equal(ls.length, 2, 'contains only fr and en modules');
-      assert.ok(en.find(locale => typeof locale.pluralRuleFunction === 'function'));
+      assert.ok(
+        en.find(locale => typeof locale.pluralRuleFunction === 'function')
+      );
     });
   });
 
