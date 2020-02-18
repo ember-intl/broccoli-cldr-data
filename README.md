@@ -41,8 +41,8 @@ The underlying formatjs-extract-cldr-data is licensed under the Yahoo Inc. BSD l
 
 The CLDR data contained in this packaged is licensed under the Apache, ICU, and Unicode licenses. See the [CLDR license files][] for their license text and copyright information.
 
-[npm]: https://www.npmjs.org/package/broccoli-cldr-data
-[npm-badge]: https://img.shields.io/npm/v/broccoli-cldr-data.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/@ember-intl/broccoli-cldr-data
+[npm-badge]: https://img.shields.io/npm/v/@ember-intl/broccoli-cldr-data.svg?style=flat-square
 [travis]: https://travis-ci.org/ember-intl/broccoli-cldr-data
 [travis-badge]: https://img.shields.io/travis/ember-intl/broccoli-cldr-data/master.svg?style=flat-square
 [LICENSE file]: https://github.com/ember-intl/broccoli-cldr-data/blob/master/LICENSE
